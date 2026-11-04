@@ -18,3 +18,18 @@
 - [x] Plan written
 - [x] Flask service written (HTML page + /healthz)
 - [x] Non-root Dockerfile, image built and tested locally in the browser
+- [x] Terraform: kind cluster (1 control-plane + 2 workers), Argo CD, ingress-nginx
+
+## One decision and why
+Installed Argo CD and ingress-nginx from the official manifests via Terraform local-exec,
+instead of the Helm provider: simpler, reproducible, and I understand every command.
+In production I would manage them with the Helm provider and pinned chart versions.
+
+## Where the AI was wrong (and how I noticed)
+- It suggested pre-loading the Argo CD image with `kind load` — failed on a multi-node
+  cluster with a multi-platform image (ctr digest error in the terraform output). Dropped it.
+- It gave the ingress-nginx manifest URL on the `main` branch and with the wrong GitHub org —
+  both 404s in the apply output. Fixed by pointing to kubernetes/ingress-nginx at a pinned
+  release tag (controller-v1.15.1). Lesson: pin versions, never track main.
+- The Argo CD install failed client-side on the huge ApplicationSet CRD ("annotations too long");
+  switched to `kubectl apply --server-side`.

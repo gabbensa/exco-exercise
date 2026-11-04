@@ -1,2 +1,4 @@
 - Asked Claude to analyze the exercise sheet and propose a time-boxed plan
 - Asked for a minimal Flask service (HTML with version + pod name, /healthz) and a non-root Dockerfile, with line-by-line explanations before using them
+- Asked for a Terraform config: kind cluster (1 cp + 2 workers, ports 80/443 mapped), Argo CD and ingress-nginx installs
+- Pasted the failing terraform output and asked to diagnose (kind load digest error, CRD too long, 404 on ingress URL)
