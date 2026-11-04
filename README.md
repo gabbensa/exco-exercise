@@ -52,3 +52,28 @@ order: workflow token permissions (packages: write), the repo's Actions
 package. Root cause found in the package's "Manage Actions access": the repo
 was linked with the Admin role, which (counter-intuitively) does not grant
 push to the Actions token — switching the role to Write fixed it.
+- [x] Zero-downtime rollout demonstrated: message changed via git only; a 0.3s
+  request loop saw 100% HTTP 200 during the rolling update (2 replicas +
+  readiness probe + rolling update strategy)
+
+## What's finished / what's missing
+Finished: all of Part 0, 1, 2; Part 3 — CI builds and pushes to GHCR (SHA tag),
+the workflow bumps the image tag in git (takes effect on the next app change),
+zero-downtime rollout demonstrated.
+Missing (bonus): HPA, Prometheus/Grafana via Argo CD — not attempted, time went
+to debugging real issues (documented above), which I consider the better trade.
+Note: a GitHub incident (status.github.com, ~08:45–09:50 UTC) caused failing
+pushes mid-exercise (Request ID C724:1508BD:351C1D:5CBB31:6AEAFFD0); switched
+the remote to HTTPS and retried.
+
+## What I would change to run this on EKS in production
+- Cluster: Terraform AWS provider + EKS module instead of kind; nodes in
+  private subnets across AZs; IRSA for pod IAM permissions
+- Images: ECR instead of GHCR, with vulnerability scanning
+- Ingress: AWS Load Balancer Controller + ACM certificates (HTTPS), real DNS
+  via Route53 instead of localhost port mappings
+- Argo CD: installed via Helm provider with pinned versions, HA mode, SSO
+- App config: secrets in AWS Secrets Manager (not env vars in git), resource
+  sizing from real metrics, HPA on CPU/RPS, PodDisruptionBudget
+- Observability: Prometheus/Grafana or CloudWatch, alerts on error rate and
+  latency
