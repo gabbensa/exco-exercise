@@ -4,3 +4,4 @@
 - Pasted the failing terraform output and asked to diagnose (kind load digest error, CRD too long, 404 on ingress URL)
 - Asked for the k8s manifests (2 replicas, readiness+liveness probes, resources, Ingress) and the Argo CD Application
 - Pasted the "connection reset" symptoms and the diagnostic outputs; got to the root cause together (controller on the wrong node vs port mapping)
+- Debugged the GHCR "denied" push with Claude (permissions, package linkage, renamed package); found the actual fix myself: the package's Actions access role had to be Write, not Admin

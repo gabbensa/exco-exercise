@@ -43,3 +43,12 @@ with `kubectl get pods -o wide` + a direct port-forward test, fixed by patching
 the controller deployment with a nodeSelector (ingress-ready=true) and a
 control-plane toleration. In production this pinning would live in the IaC,
 not in a manual patch.
+- [x] CI/CD: GitHub Actions builds and pushes the image to GHCR (commit SHA tag)
+
+## Troubleshooting: GHCR push denied
+The first pushes failed with `denied` on the final manifest push. Checked in
+order: workflow token permissions (packages: write), the repo's Actions
+"Read and write" setting, a possible name hold after deleting a half-created
+package. Root cause found in the package's "Manage Actions access": the repo
+was linked with the Admin role, which (counter-intuitively) does not grant
+push to the Actions token — switching the role to Write fixed it.
