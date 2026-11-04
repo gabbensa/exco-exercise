@@ -33,3 +33,13 @@ In production I would manage them with the Helm provider and pinned chart versio
   release tag (controller-v1.15.1). Lesson: pin versions, never track main.
 - The Argo CD install failed client-side on the huge ApplicationSet CRD ("annotations too long");
   switched to `kubectl apply --server-side`.
+- [x] Argo CD syncs k8s/ from this repo (automated, selfHeal, prune)
+- [x] App reachable in the browser at http://localhost via ingress-nginx
+
+## Troubleshooting worth noting
+The ingress controller first scheduled on a worker node, while the host port
+mapping (80/443) lives on the control-plane: connections were reset. Diagnosed
+with `kubectl get pods -o wide` + a direct port-forward test, fixed by patching
+the controller deployment with a nodeSelector (ingress-ready=true) and a
+control-plane toleration. In production this pinning would live in the IaC,
+not in a manual patch.

@@ -2,3 +2,5 @@
 - Asked for a minimal Flask service (HTML with version + pod name, /healthz) and a non-root Dockerfile, with line-by-line explanations before using them
 - Asked for a Terraform config: kind cluster (1 cp + 2 workers, ports 80/443 mapped), Argo CD and ingress-nginx installs
 - Pasted the failing terraform output and asked to diagnose (kind load digest error, CRD too long, 404 on ingress URL)
+- Asked for the k8s manifests (2 replicas, readiness+liveness probes, resources, Ingress) and the Argo CD Application
+- Pasted the "connection reset" symptoms and the diagnostic outputs; got to the root cause together (controller on the wrong node vs port mapping)
