@@ -27,14 +27,14 @@ jobs:
 
       - name: Build and push image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/exco-web:${{ github.sha }} .
-          docker push ghcr.io/${{ github.repository_owner }}/exco-web:${{ github.sha }}
+          docker build -t ghcr.io/${{ github.repository_owner }}/exco-webapp:${{ github.sha }} .
+          docker push ghcr.io/${{ github.repository_owner }}/exco-webapp:${{ github.sha }}
 
       - name: Bump image tag in k8s manifest (GitOps)
         run: |
-          sed -i "s|image: ghcr.io/.*/exco-web:.*|image: ghcr.io/${{ github.repository_owner }}/exco-web:${{ github.sha }}|" k8s/deployment.yaml
+          sed -i "s|image: ghcr.io/.*/exco-webapp:.*|image: ghcr.io/${{ github.repository_owner }}/exco-webapp:${{ github.sha }}|" k8s/deployment.yaml
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add k8s/deployment.yaml
-          git commit -m "ci: deploy exco-web ${{ github.sha }}" || echo "nothing to bump yet"
+          git commit -m "ci: deploy exco-webapp ${{ github.sha }}" || echo "nothing to bump yet"
           git push
