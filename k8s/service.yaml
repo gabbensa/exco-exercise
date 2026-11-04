@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: exco-web
+spec:
+  selector:
+    app: exco-web
+  ports:
+    - port: 80
+      targetPort: 8000

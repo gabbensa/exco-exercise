@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exco-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: exco-web
+  template:
+    metadata:
+      labels:
+        app: exco-web
+    spec:
+      containers:
+        - name: exco-web
+          image: exco-web:1.0.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          env:
+            - name: APP_VERSION
+              value: "1.0.0"
+            - name: APP_MESSAGE
+              value: "Hello from the EX.CO exercise!"
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
