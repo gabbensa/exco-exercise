@@ -1,0 +1,2 @@
+- Asked Claude to analyze the exercise sheet and propose a time-boxed plan
+- Asked for a minimal Flask service (HTML with version + pod name, /healthz) and a non-root Dockerfile, with line-by-line explanations before using them

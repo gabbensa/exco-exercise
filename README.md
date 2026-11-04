@@ -16,3 +16,5 @@
 
 ## Progress log
 - [x] Plan written
+- [x] Flask service written (HTML page + /healthz)
+- [x] Non-root Dockerfile, image built and tested locally in the browser
