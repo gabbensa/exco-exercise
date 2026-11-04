@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: exco-web
-          image: exco-web:1.0.0
-          imagePullPolicy: Never
+          image: ghcr.io/gabbensa/exco-webapp:2e1e9769e1382a7ab92fe036a793c5166d803f59
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
           env:
